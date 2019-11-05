@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+void topoutil(vector<int> v[],set<int> &visited,stack<int> &sorted,int child)
+{    visited.insert(child);
+     for(int i=0;i<v[child].size();i++)
+    {
+        if(visited.find(v[child][i]) != visited.end())
+        {
+            continue;
+        }
+        else{
+            topoutil(v,visited,sorted,v[child][i]);
+        }
+     }
+     sorted.push(child);
+    
+}
+void topo(vector<int> v[],int n,set<int> &visited,stack<int> &sorted)
+{
+    for(int i=0;i<n;i++)
+    {
+        if(visited.find(i) ==visited.end())
+        {
+            visited.insert(i);
+            topoutil(v,visited,sorted,i);
+        }
+    }
+}
+int main()
+{  int n,e,a,b;
+    cin>>n>>e;
+    vector<int> v[n];
+    for(int i=0;i<e;i++)
+    {
+        cin>>a>>b;
+        v[a].push_back(b);
+    }
+    // for(vector<int> v1:v)
+    // {
+    //     for(int i:v1)
+    //     {
+    //         cout<<i<<" ";
+    //     }
+    //     cout<<"\n";
+    // }
+    set<int> visited;
+    stack<int> sorted;
+    topo(v,n,visited,sorted);
+    while(!sorted.empty())
+    {
+        cout<<sorted.top()<<" ";
+        sorted.pop();
+    }
+}
